@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Spend Audit</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>AI Spend Audit Tool</h1>
+
+    <form method="POST" action="/audit">
+        {% for tool in tools %}
+            <div>
+                <input type="checkbox" name="tools" value="{{ tool }}">
+                <label>{{ tool }} (${{ tools[tool]['cost'] }}/mo)</label>
+            </div>
+        {% endfor %}
+        <button type="submit">Audit My Spend</button>
+    </form>
+
+    {% if report %}
+    <hr>
+    <h2>Audit Report</h2>
+    <p>Current Spend: ${{ total }}</p>
+    <p>Optimized Spend: ${{ optimized }}</p>
+    <p>Savings: ${{ savings }}</p>
+
+    <h3>Remove These Tools:</h3>
+    <ul>
+        {% for r in redundant %}
+        <li>{{ r }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Recommended Stack:</h3>
+    <ul>
+        {% for t in optimized_tools %}
+        <li>{{ t }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+</html>
